@@ -453,11 +453,14 @@ namespace SoundSwitch.Model
                 {
                     if (e.HotKeys == AppConfigs.Configuration.PlaybackHotKeys)
                     {
-                        CycleActiveDevice(AudioDeviceType.Playback);
+						//CycleActiveDevice(AudioDeviceType.Playback);
+	                    ChooseActiveDevice(0);
+
                     }
                     else if (e.HotKeys == AppConfigs.Configuration.RecordingHotKeys)
                     {
-                        CycleActiveDevice(AudioDeviceType.Recording);
+                        //CycleActiveDevice(AudioDeviceType.Recording);
+                        ChooseActiveDevice(1);
                     }
                 }
                 catch (Exception ex)
@@ -554,6 +557,28 @@ namespace SoundSwitch.Model
                 return SetActiveDevice(next);
             }
         }
+
+	    public bool ChooseActiveDevice(int device)
+	    {
+			using (AppLogger.Log.InfoCall())
+			{
+				var availablePlaybackDevices = AvailablePlaybackDevices;
+
+				switch (availablePlaybackDevices.Count)
+				{
+					case 0:
+						ErrorTriggered?.Invoke(this, new ExceptionEvent(new NoDevicesException()));
+						return false;
+					case 1:
+						return false;
+					case 2:
+						var nextDevice = availablePlaybackDevices.ElementAt(device);
+						AppLogger.Log.Info("Select AudioDevice", nextDevice);
+						return SetActiveDevice(nextDevice);
+				}
+				return false;
+			}
+		}
 
         [Serializable]
         public class NoDevicesException : InvalidOperationException
