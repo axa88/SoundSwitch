@@ -57,7 +57,6 @@ namespace SoundSwitch.Framework.NotificationManager
             if (_lastDeviceId == deviceDefaultChangedEvent.device.Id)
                 return;
 
-           
             _notification.NotifyDefaultChanged(deviceDefaultChangedEvent.device);
             _lastDeviceId = deviceDefaultChangedEvent.device.Id;
         }

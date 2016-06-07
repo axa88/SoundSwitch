@@ -127,18 +127,17 @@ namespace SoundSwitch
                         {
                             Thread.Sleep(250);
                         }
-                        
                     }
                     AppModel.Instance.NotifyIcon = icon.NotifyIcon;
                     AppModel.Instance.InitializeMain();
-                    AppModel.Instance.NewVersionReleased += (sender, @event) =>
-                    {
-                        if (@event.UpdateState != UpdateState.Steath)
-                        {
-                            return;
-                        }
-                        new AutoUpdater("/VERYSILENT /NOCANCEL", ApplicationPath.Default).Update(@event.Release, true);
-                    };
+                    //AppModel.Instance.NewVersionReleased += (sender, @event) =>
+                    //{
+                    //    if (@event.UpdateState != UpdateState.Steath)
+                    //    {
+                    //        return;
+                    //    }
+                    //    new AutoUpdater("/VERYSILENT /NOCANCEL", ApplicationPath.Default).Update(@event.Release, true);
+                    //};
                     if (AppConfigs.Configuration.FirstRun)
                     {
                         icon.ShowSettings();
@@ -149,11 +148,9 @@ namespace SoundSwitch
                 }
 #if !DEBUG
                 }
-               
                 catch (Exception ex)
                 {
                     HandleException(ex);
-
                 }
 #endif
             }
